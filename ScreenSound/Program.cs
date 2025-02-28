@@ -1,4 +1,4 @@
-﻿using ScreenSound.Banco;
+﻿using ScreenSound.Dados.Banco;
 using ScreenSound.Menus;
 using ScreenSound.Modelos;
 
