@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
@@ -77,5 +76,6 @@ app.MapDelete("/Artistas/{id}", ([FromServices] DAL<Artista> dal, int id) =>
     return Results.NoContent();
 });
 
-
 app.Run();
+
+public partial class Program { }
