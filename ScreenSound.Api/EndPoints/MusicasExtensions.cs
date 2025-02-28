@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScreenSound.Api.Requests;
+using ScreenSound.Api.Response;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
 
@@ -12,7 +13,7 @@ public static class MusicasExtensions
 
         app.MapGet("/Musicas", ([FromServices] DAL<Musica> dal) =>
         {
-            return Results.Ok(dal.Listar());
+            return Results.Ok(dal.Listar().Select(m => new MusicaResponse(m.Id, m.Nome, m.ArtistaId, m.Artista?.Nome)));
         });
 
         app.MapGet("/Musicas/{nome}", ([FromServices] DAL<Musica> dal, string nome) =>
@@ -23,7 +24,9 @@ public static class MusicasExtensions
                 return Results.NotFound();
             }
 
-            return Results.Ok(musica);
+            var musicaResponse = new MusicaResponse(musica.Id, musica.Nome, musica.ArtistaId, musica.Artista?.Nome);
+
+            return Results.Ok(musicaResponse);
         });
 
         app.MapGet("/Musicas/Artista/{artistaId}", ([FromServices] DAL<Musica> dal, int artistaId) =>
@@ -46,17 +49,18 @@ public static class MusicasExtensions
             return Results.Ok();
         });
 
-        app.MapPut("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] Musica musica) =>
+        app.MapPut("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequestEdit musicaRequest
+            ) =>
         {
-            var musicaAAtualizar = dal.RecuperarPor(a => a.Id == musica.Id);
+            var musicaAAtualizar = dal.RecuperarPor(a => a.Id == musicaRequest.id);
             if (musicaAAtualizar == null)
             {
                 return Results.NotFound();
             }
 
-            musicaAAtualizar.Nome = musica.Nome;
-            musicaAAtualizar.AnoLancamento = musica.AnoLancamento;
-            musicaAAtualizar.Artista = musica.Artista;
+            musicaAAtualizar.Nome = musicaRequest.nome;
+            musicaAAtualizar.AnoLancamento = musicaRequest.anoLancamento;
+            musicaAAtualizar.ArtistaId = musicaRequest.ArtistaId;
             dal.Atualizar(musicaAAtualizar);
 
             return Results.Ok();
