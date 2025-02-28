@@ -2,6 +2,8 @@
 
 public class Musica
 {
+    public Musica() { } //EF
+
     public Musica(string nome, int? anoLancamento)
     {
         Nome = nome;

@@ -2,6 +2,8 @@
 
 public class Artista 
 {
+    public Artista() { } // EF
+
     public Artista(string nome, string bio)
     {
         Nome = nome;
