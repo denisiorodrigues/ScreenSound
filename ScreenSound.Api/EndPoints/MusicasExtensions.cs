@@ -39,7 +39,8 @@ public static class MusicasExtensions
 
         app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequest musicaRequest) =>
         {
-            var musica = new Musica(musicaRequest.Nome, musicaRequest.AnoLancamento);
+            var musica = new Musica(musicaRequest.nome, musicaRequest.anoLancamento);
+            musica.ArtistaId = musicaRequest.ArtistaId;
             dal.Adicionar(musica);
 
             return Results.Ok();
