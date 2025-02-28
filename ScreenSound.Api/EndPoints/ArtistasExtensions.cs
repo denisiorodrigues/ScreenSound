@@ -12,7 +12,7 @@ public static class ArtistasExtensions
     {
         app.MapGet("/Artistas", ([FromServices] DAL<Artista> dal) =>
         {
-            return Results.Ok(dal.Listar().Select(a => new ArtistaResponse(a.Id, a.Nome, a.Bio, a.FotoPerfil)));
+            return Results.Ok(EntityListToResponseList(dal.Listar()));
         });
 
         app.MapGet("/Artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
@@ -23,9 +23,7 @@ public static class ArtistasExtensions
                 return Results.NotFound();
             }
 
-            var artistaResponse = new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
-
-            return Results.Ok(artistaResponse);
+            return Results.Ok(EntityToResponse(artista));
         });
 
         app.MapPost("/Artistas", ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
@@ -63,5 +61,14 @@ public static class ArtistasExtensions
 
             return Results.NoContent();
         });
+    }
+    private static ICollection<ArtistaResponse> EntityListToResponseList(IEnumerable<Artista> listaDeArtistas)
+    {
+        return listaDeArtistas.Select(a => EntityToResponse(a)).ToList();
+    }
+
+    private static ArtistaResponse EntityToResponse(Artista artista)
+    {
+        return new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
     }
 }

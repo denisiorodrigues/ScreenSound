@@ -13,7 +13,7 @@ public static class MusicasExtensions
 
         app.MapGet("/Musicas", ([FromServices] DAL<Musica> dal) =>
         {
-            return Results.Ok(dal.Listar().Select(m => new MusicaResponse(m.Id, m.Nome, m.ArtistaId, m.Artista?.Nome)));
+            return Results.Ok(EntityListToResponseList(dal.Listar()));
         });
 
         app.MapGet("/Musicas/{nome}", ([FromServices] DAL<Musica> dal, string nome) =>
@@ -24,9 +24,7 @@ public static class MusicasExtensions
                 return Results.NotFound();
             }
 
-            var musicaResponse = new MusicaResponse(musica.Id, musica.Nome, musica.ArtistaId, musica.Artista?.Nome);
-
-            return Results.Ok(musicaResponse);
+            return Results.Ok(EntityToResponse(musica));
         });
 
         app.MapGet("/Musicas/Artista/{artistaId}", ([FromServices] DAL<Musica> dal, int artistaId) =>
@@ -78,5 +76,15 @@ public static class MusicasExtensions
 
             return Results.NoContent();
         });
+    }
+
+    private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicaList)
+    {
+        return musicaList.Select(a => EntityToResponse(a)).ToList();
+    }
+
+    private static MusicaResponse EntityToResponse(Musica musica)
+    {
+        return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome);
     }
 }
