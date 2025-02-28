@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ScreenSound.Dados.Banco;
 
-namespace ScreenSound.Banco;
-internal class DAL<T> where T : class
+public class DAL<T> where T : class
 {
     protected readonly ScreenSoundContext context;
 
