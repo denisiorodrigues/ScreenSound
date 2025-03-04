@@ -19,6 +19,8 @@ public class Musica
 
     public virtual Artista? Artista { get; set; }
 
+    public virtual ICollection<Genero> Generos { get; set; }
+
     public void ExibirFichaTecnica()
     {
         Console.WriteLine($"Nome: {Nome} - {AnoLancamento}");
