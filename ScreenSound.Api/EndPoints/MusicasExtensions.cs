@@ -38,11 +38,12 @@ public static class MusicasExtensions
             return Results.Ok(musicas);
         });
 
-        app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequest musicaRequest) =>
+        app.MapPost("/Musicas", ([FromServices] DAL<Musica> musicaDAL, [FromServices] DAL<Genero> generoDAL, [FromBody] MusicaRequest musicaRequest) =>
         {
             var musica = new Musica(musicaRequest.nome, musicaRequest.anoLancamento);
             musica.ArtistaId = musicaRequest.ArtistaId;
-            dal.Adicionar(musica);
+            musica.Generos = GeneroRequestConverter(generoDAL, musicaRequest.Generos);
+            musicaDAL.Adicionar(musica);
 
             return Results.Ok();
         });
@@ -78,6 +79,33 @@ public static class MusicasExtensions
         });
     }
 
+    private static ICollection<Genero> GeneroRequestConverter(DAL<Genero> generoDAL, ICollection<GeneroRequest> generos)
+    {
+        if (generos is null) return new List<Genero>();
+        var generoRelacionado = new List<Genero>(); 
+
+        foreach (var generoResponse in generos)
+        {
+            var genero = GeneroRequestToEntity(generoResponse);
+            var generoEncontrado = generoDAL.RecuperarPor(a => a.Nome.ToLower().Equals(genero.Nome.ToLower()));
+            if (generoEncontrado is null)
+            {
+                generoRelacionado.Add(genero);
+            }
+            else
+            {
+                generoRelacionado.Add(generoEncontrado);
+            }
+        }
+
+        return generoRelacionado;
+    }
+
+    private static Genero GeneroRequestToEntity(GeneroRequest generoRequest)
+    {
+        return new Genero() { Nome = generoRequest.Nome, Descricao = generoRequest.Descricao };
+    }
+
     private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicaList)
     {
         return musicaList.Select(a => EntityToResponse(a)).ToList();
@@ -85,6 +113,6 @@ public static class MusicasExtensions
 
     private static MusicaResponse EntityToResponse(Musica musica)
     {
-        return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome);
+        return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista?.Id, musica.Artista?.Nome);
     }
 }
