@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ScreenSound.Api.EndPoints;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
@@ -13,7 +14,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddDbContext<ScreenSoundContext>();
+builder.Services.AddDbContext<ScreenSoundContext>((options) => {
+    options
+            .UseSqlServer(builder.Configuration["ConnectionStrings:ScreenSoundDB"])
+            .UseLazyLoadingProxies();
+});
+
 builder.Services.AddTransient<DAL<Artista>>();
 builder.Services.AddTransient<DAL<Musica>>();
 builder.Services.AddTransient<DAL<Genero>>();
