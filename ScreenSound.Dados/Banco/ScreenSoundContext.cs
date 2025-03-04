@@ -12,7 +12,7 @@ public class ScreenSoundContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (optionsBuilder.IsConfigured) return;
+        //if (optionsBuilder.IsConfigured) return;
 
         optionsBuilder
             .UseSqlServer(connectionString)
