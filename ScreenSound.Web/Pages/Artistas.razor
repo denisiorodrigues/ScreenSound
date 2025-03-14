@@ -1,14 +1,21 @@
 ﻿@page "/Artistas"
 @inject ArtistaService artistaService
 
-<h3>Artistas</h3>
+<PageTitle>Artistas</PageTitle>
+
+@* <h3>Artistas</h3> *@
+<MudText Typo="Typo.h3">Artistas</MudText>
 
 @if (artistas.Any())
 {
-    foreach (var artista in artistas)
-    {
-        <p>@artista.Nome</p>
-    }
+    <MudGrid>
+        @foreach (var artista in artistas)
+        {
+            <MudItem xs="3">
+                <CardArtista Artista="@artista" />
+            </MudItem>
+        }
+    </MudGrid>
 }
 
 @code {
