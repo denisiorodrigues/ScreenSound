@@ -1,7 +1,60 @@
 ﻿@page "/CadastrarArtista"
+@using ScreenSound.Web.Requests
+@inject ArtistaService artistaService;
+@inject NavigationManager navigationManager;
 
-<h3>CadastrarArtista</h3>
+<PageTitle>Cadastrar Artista</PageTitle>
+
+<MudPaper Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
+
+    <MudText Class="mt-8" Typo="Typo.h4">Cadastro do Artista</MudText>
+
+    <MudForm>
+
+        <MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
+                      @bind-Value="nome"
+                      Variant="Variant.Outlined"
+                      Required="true"
+                      RequiredError="Campo obrigatório." />
+
+        <MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
+                      @bind-Value="biografia"
+                      Variant="Variant.Outlined"
+                      Lines="4"
+                      Required="true"
+                      RequiredError="Campo obrigatório." />
+
+        <div class="d-flex align-right justify-space-between mt-5">
+            <MudButton Variant="Variant.Filled"
+                       @onclick="VoltarListagemArtistas"
+                       Color="Color.Secondary"
+                       Class="ml-auto">
+                Voltar
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       @onclick="Cadastrar"
+                       Color="Color.Primary"
+                       Class="ml-auto">
+                Cadastrar
+            </MudButton>
+        </div>
+
+    </MudForm>
+</MudPaper>
 
 @code {
+    private string? nome;
+    private string? biografia;
 
+    private async Task Cadastrar()
+    {
+        var artista = new ArtistaRequest(nome, biografia);
+        await artistaService.CadastrarArtistaAsync(artista);
+        navigationManager.NavigateTo("/Artistas");
+    }
+
+    private void VoltarListagemArtistas()
+    {
+        navigationManager.NavigateTo("/Artistas");
+    }
 }
