@@ -8,14 +8,19 @@ public class ScreenSoundContext: DbContext
     public DbSet<Musica> Musicas { get; set; }
     public DbSet<Genero> Generos { get; set; }
 
-    private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ScreenSound;Integrated Security=True;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+    // private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ScreenSound;Integrated Security=True;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+    private string connectionString = "Host=localhost;Username=app;Password=senha123;Database=ScreenSound";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //if (optionsBuilder.IsConfigured) return;
 
+        // optionsBuilder
+        //     .UseSqlServer(connectionString)
+        //     .UseLazyLoadingProxies();
+
         optionsBuilder
-            .UseSqlServer(connectionString)
+            .UseNpgsql(connectionString)
             .UseLazyLoadingProxies();
     }
 
