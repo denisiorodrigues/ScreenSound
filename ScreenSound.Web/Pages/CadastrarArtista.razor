@@ -24,19 +24,28 @@
                       Required="true"
                       RequiredError="Campo obrigatório." />
 
-        <div class="d-flex align-right justify-space-between mt-5">
-            <MudButton Variant="Variant.Filled"
-                       @onclick="VoltarListagemArtistas"
-                       Color="Color.Secondary"
-                       Class="ml-auto">
-                Voltar
-            </MudButton>
-            <MudButton Variant="Variant.Filled"
-                       @onclick="Cadastrar"
-                       Color="Color.Primary"
-                       Class="ml-auto">
-                Cadastrar
-            </MudButton>
+        <div class="d-flex mt-5">
+            <MudGrid Spacing="5" Justify="Justify.FlexEnd">
+                <MudItem>
+                    <MudButton Variant="Variant.Filled"
+                               @onclick="VoltarListagemArtistas"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Material.Filled.ArrowBack"
+                               Class="ml-auto">
+                        Voltar
+                    </MudButton>
+                </MudItem>
+                <MudItem>
+                    <MudButton Variant="Variant.Filled"
+                               @onclick="Cadastrar"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.NewReleases"
+                               Class="ml-auto">
+                        Cadastrar
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+            
         </div>
 
     </MudForm>

@@ -22,4 +22,23 @@ public class ArtistaService
     {
         await _httpClient.PostAsJsonAsync($"Artistas", request);
     }
+
+    public async Task EditarArtistaAsync(ArtistaRequestEdit request)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"Artistas", request);
+        if (response == null || !response.IsSuccessStatusCode)
+        {
+            throw new Exception("Erro ao editar artista");
+        }
+    }
+
+    public async Task DeletarArtistaAsync(int id)
+    {
+        await _httpClient.DeleteAsync($"Artistas/{id}");
+    }
+
+    public async Task<ArtistaResponse> GetArtistaPorNomeAsync(string nome)
+    {
+        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"Artistas/{nome}");
+    }
 }
