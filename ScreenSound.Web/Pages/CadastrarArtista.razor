@@ -7,63 +7,71 @@
 
 <MudPaper Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
 
-    <MudText Class="mt-8" Typo="Typo.h4">Cadastro do Artista</MudText>
+	<MudText Class="mt-8" Typo="Typo.h4">Cadastro do Artista</MudText>
 
-    <MudForm>
+	<MudForm @ref="_form" @bind-IsValid="_success">
 
-        <MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
-                      @bind-Value="nome"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="Campo obrigatório." />
+		<MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
+					  @bind-Value="nome"
+					  Variant="Variant.Outlined"
+					  Required="true"
+					  RequiredError="Campo obrigatório." />
 
-        <MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
-                      @bind-Value="biografia"
-                      Variant="Variant.Outlined"
-                      Lines="4"
-                      Required="true"
-                      RequiredError="Campo obrigatório." />
+		<MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
+					  @bind-Value="biografia"
+					  Variant="Variant.Outlined"
+					  Lines="4"
+					  Required="true"
+					  RequiredError="Campo obrigatório." />
 
-        <div class="d-flex mt-5">
-            <MudGrid Spacing="5" Justify="Justify.FlexEnd">
-                <MudItem>
-                    <MudButton Variant="Variant.Filled"
-                               @onclick="VoltarListagemArtistas"
-                               Color="Color.Secondary"
-                               StartIcon="@Icons.Material.Filled.ArrowBack"
-                               Class="ml-auto">
-                        Voltar
-                    </MudButton>
-                </MudItem>
-                <MudItem>
-                    <MudButton Variant="Variant.Filled"
-                               @onclick="Cadastrar"
-                               Color="Color.Primary"
-                               StartIcon="@Icons.Material.Filled.NewReleases"
-                               Class="ml-auto">
-                        Cadastrar
-                    </MudButton>
-                </MudItem>
-            </MudGrid>
-            
-        </div>
+		<div class="d-flex mt-5">
+			<MudGrid Spacing="5" Justify="Justify.FlexEnd">
+				<MudItem>
+					<MudButton Variant="Variant.Filled"
+							   @onclick="VoltarListagemArtistas"
+							   Color="Color.Secondary"
+							   StartIcon="@Icons.Material.Filled.ArrowBack"
+							   Class="ml-auto">
+						Voltar
+					</MudButton>
+				</MudItem>
+				<MudItem>
+					<MudButton Variant="Variant.Filled"
+							   @onclick="Cadastrar"
+							   Color="Color.Primary"
+							   StartIcon="@Icons.Material.Filled.NewReleases"
+							   Class="ml-auto">
+						Cadastrar
+					</MudButton>
+				</MudItem>
+			</MudGrid>
 
-    </MudForm>
+		</div>
+
+	</MudForm>
 </MudPaper>
 
 @code {
-    private string? nome;
-    private string? biografia;
+	private MudForm _form;
+	private bool _success;
 
-    private async Task Cadastrar()
-    {
-        var artista = new ArtistaRequest(nome, biografia);
-        await artistaService.CadastrarArtistaAsync(artista);
-        navigationManager.NavigateTo("/Artistas");
-    }
+	private string? nome;
+	private string? biografia;
 
-    private void VoltarListagemArtistas()
-    {
-        navigationManager.NavigateTo("/Artistas");
-    }
+	private async Task Cadastrar()
+	{
+		await _form.Validate();
+
+		if (!_success)
+			return;
+
+		var artista = new ArtistaRequest(nome, biografia);
+		await artistaService.CadastrarArtistaAsync(artista);
+		navigationManager.NavigateTo("/Artistas");
+	}
+
+	private void VoltarListagemArtistas()
+	{
+		navigationManager.NavigateTo("/Artistas");
+	}
 }
