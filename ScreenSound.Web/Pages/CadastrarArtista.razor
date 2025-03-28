@@ -55,9 +55,11 @@
     private string? nome;
     private string? biografia;
 
+    private string? fileImage;
+    private string? fotoPerfil;
     private async Task Cadastrar()
     {
-        var artista = new ArtistaRequest(nome, biografia);
+        var artista = new ArtistaRequest(nome!, biografia!, fotoPerfil);
         await artistaService.CadastrarArtistaAsync(artista);
         navigationManager.NavigateTo("/Artistas");
     }

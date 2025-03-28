@@ -2,5 +2,5 @@
 
 namespace ScreenSound.Web.Requests;
 
-public record ArtistaRequestEdit([Required]int id, string nome, string bio)
-    : ArtistaRequest(nome, bio);
+public record ArtistaRequestEdit([Required]int id, string nome, string bio, string? anoLancamento, string? fotoPerfil)
+    : ArtistaRequest(nome, bio, anoLancamento, fotoPerfil);
