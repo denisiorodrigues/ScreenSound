@@ -4,51 +4,53 @@
 @inject NavigationManager navigationManager
 @inject ISnackbar Snackbar
 
+<PageTitle>Editar Artista</PageTitle>
+
 <MudPaper Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
 
-    <MudText Class="mt-8" Typo="Typo.h4">Edição de Artista</MudText>
+	<MudText Class="mt-8" Typo="Typo.h4">Edição de Artista</MudText>
 
-    <MudForm>
+	<MudForm @ref="_form" @bind-IsValid="_success">
 
-        <MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
-        Variant="Variant.Outlined"
-        @bind-Value="nome"
-        Required="true"
-        RequiredError="Campo obrigatório." />
+		<MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
+					  Variant="Variant.Outlined"
+					  @bind-Value="nome"
+					  Required="true"
+					  RequiredError="Campo obrigatório." />
 
         <MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
-        Variant="Variant.Outlined"
-        @bind-Value="biografia"
-        Lines="4"
-        Required="true"
-        RequiredError="Campo obrigatório." />
+                      Variant="Variant.Outlined"
+                      @bind-Value="biografia"
+                      Lines="4"
+                      Required="true"
+                      RequiredError="Campo obrigatório." />
 
         <div class="d-flex align-center justify-space-between mt-4">
             <MudGrid Spacing="5" Justify="Justify.FlexEnd">
                 <MudItem>
                     <MudButton Variant="Variant.Filled"
-                    @onclick="Voltar"
-                    Color="Color.Secondary"
-                    StartIcon="@Icons.Material.Filled.ArrowBack"
-                    Class="ml-auto">
+                               @onclick="Voltar"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Material.Filled.ArrowBack"
+                               Class="ml-auto">
                         Voltar
                     </MudButton>
                 </MudItem>
                 <MudItem>
                     <MudButton Variant="Variant.Filled"
-                    StartIcon="@Icons.Material.Filled.Delete"
-                    @onclick="Deletar"
-                    Color="Color.Error"
-                    Class="ml-auto">
+                               StartIcon="@Icons.Material.Filled.Delete"
+                               @onclick="Deletar"
+                               Color="Color.Error"
+                               Class="ml-auto">
                         Deletar
                     </MudButton>
                 </MudItem>
                 <MudItem>
                     <MudButton Variant="Variant.Filled"
-                    @onclick="Salvar"
-                    Color="Color.Primary"
-                    StartIcon="@Icons.Material.Filled.Save"
-                    Class="ml-auto">
+                               @onclick="Salvar"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.Save"
+                               Class="ml-auto">
                         Salvar
                     </MudButton>
                 </MudItem>
@@ -58,50 +60,53 @@
 </MudPaper>
 
 @code {
-    private string? nome;
-    private string? biografia;
-    [Parameter]
-    public string? NomeArtista { get; set; }
-    public bool? Atualizado { get; set; }
+	private MudForm _form;
+	private bool _success;
 
-    private string? fileImage;
-    private string? fotoPerfil;
+	private string? nome;
+	private string? biografia;
+	[Parameter]
+	public string? NomeArtista { get; set; }
 
     public ArtistaResponse? Artista { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        Artista = await artistaService.GetArtistaPorNomeAsync(NomeArtista);
-        nome = Artista!.Nome;
-        biografia = Artista!.Bio;
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		Artista = await artistaService.GetArtistaPorNomeAsync(NomeArtista);
+		nome = Artista!.Nome;
+		biografia = Artista!.Bio;
+	}
 
-    private async Task Salvar()
-    {
-        try
-        {
-            var artistaRequestEdit = new ArtistaRequestEdit(Artista.Id, nome, biografia);
-            await artistaService.EditarArtistaAsync(artistaRequestEdit);
-            Snackbar.Clear();
-            Snackbar.Add("Artista salvo com sucesso", Severity.Success);
-        }
-        catch (Exception)
-        {
-            Snackbar.Clear();
-            Snackbar.Add("Não foi possível salvar o artista.", Severity.Error);
-        }
-        
-    }
+	private async Task Salvar()
+	{
+		await _form.Validate();
 
-    private async Task Deletar()
-    {
-        await artistaService.DeletarArtistaAsync(Artista!.Id);
-        navigationManager.NavigateTo("/Artistas");
+		if (!_success) return;
 
-    }
+		try
+		{
+			var artistaRequestEdit = new ArtistaRequestEdit(Artista.Id, nome, biografia);
+			await artistaService.EditarArtistaAsync(artistaRequestEdit);
+			Snackbar.Clear();
+			Snackbar.Add("Artista salvo com sucesso", Severity.Success);
+		}
+		catch (Exception)
+		{
+			Snackbar.Clear();
+			Snackbar.Add("Não foi possível salvar o artista.", Severity.Error);
+		}
 
-    private void Voltar()
-    {
-        navigationManager.NavigateTo("Artistas");
-    }
+	}
+
+	private async Task Deletar()
+	{
+		await artistaService.DeletarArtistaAsync(Artista!.Id);
+		navigationManager.NavigateTo("/Artistas");
+
+	}
+
+	private void Voltar()
+	{
+		navigationManager.NavigateTo("Artistas");
+	}
 }
