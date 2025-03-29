@@ -67,6 +67,8 @@
 	private string? biografia;
 	[Parameter]
 	public string? NomeArtista { get; set; }
+	private string? fotoPerfil;
+
 
     public ArtistaResponse? Artista { get; set; }
 
@@ -85,7 +87,7 @@
 
 		try
 		{
-			var artistaRequestEdit = new ArtistaRequestEdit(Artista.Id, nome, biografia);
+			var artistaRequestEdit = new ArtistaRequestEdit(Artista.Id, nome, biografia, fotoPerfil);
 			await artistaService.EditarArtistaAsync(artistaRequestEdit);
 			Snackbar.Clear();
 			Snackbar.Add("Artista salvo com sucesso", Severity.Success);

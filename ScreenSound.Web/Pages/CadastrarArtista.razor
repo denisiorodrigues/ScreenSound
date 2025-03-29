@@ -12,26 +12,26 @@
 	<MudForm @ref="_form" @bind-IsValid="_success">
 
 		<MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
-					  @bind-Value="nome"
-					  Variant="Variant.Outlined"
-					  Required="true"
-					  RequiredError="Campo obrigatório." />
+		@bind-Value="nome"
+		Variant="Variant.Outlined"
+		Required="true"
+		RequiredError="Campo obrigatório." />
 
 		<MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
-					  @bind-Value="biografia"
-					  Variant="Variant.Outlined"
-					  Lines="4"
-					  Required="true"
-					  RequiredError="Campo obrigatório." />
+		@bind-Value="biografia"
+		Variant="Variant.Outlined"
+		Lines="4"
+		Required="true"
+		RequiredError="Campo obrigatório." />
 
 		<MudImage Class="mt-4" src="@fileImage" />
 		<MudFileUpload T="IBrowserFile" Accept=".jpeg" FilesChanged="UploadImagem">
 			<ButtonTemplate>
 				<MudButton HtmlTag="label"
-						   Variant="Variant.Filled"
-						   Color="Color.Primary"
-						   StartIcon="@Icons.Material.Filled.PhotoCamera"
-						   for="@context">
+				Variant="Variant.Filled"
+				Color="Color.Primary"
+				StartIcon="@Icons.Material.Filled.PhotoCamera"
+				for="@context">
 					Foto de Perfil
 				</MudButton>
 			</ButtonTemplate>
@@ -41,19 +41,19 @@
 			<MudGrid Spacing="5" Justify="Justify.FlexEnd">
 				<MudItem>
 					<MudButton Variant="Variant.Filled"
-							   @onclick="VoltarListagemArtistas"
-							   Color="Color.Secondary"
-							   StartIcon="@Icons.Material.Filled.ArrowBack"
-							   Class="ml-auto">
+					@onclick="VoltarListagemArtistas"
+					Color="Color.Secondary"
+					StartIcon="@Icons.Material.Filled.ArrowBack"
+					Class="ml-auto">
 						Voltar
 					</MudButton>
 				</MudItem>
 				<MudItem>
 					<MudButton Variant="Variant.Filled"
-							   @onclick="Cadastrar"
-							   Color="Color.Primary"
-							   StartIcon="@Icons.Material.Filled.NewReleases"
-							   Class="ml-auto">
+					@onclick="Cadastrar"
+					Color="Color.Primary"
+					StartIcon="@Icons.Material.Filled.NewReleases"
+					Class="ml-auto">
 						Cadastrar
 					</MudButton>
 				</MudItem>
@@ -67,17 +67,19 @@
 @code {
 	private MudForm _form;
 	private bool _success;
-	private string? fileImage;
 
 	private string? nome;
 	private string? biografia;
 
-    private async Task Cadastrar()
-    {
-        var artista = new ArtistaRequest(nome, biografia);
-        await artistaService.CadastrarArtistaAsync(artista);
-        navigationManager.NavigateTo("/Artistas");
-    }
+	private string? fileImage;
+	private string? fotoPerfil;
+
+	private async Task Cadastrar()
+	{
+		var artista = new ArtistaRequest(nome!, biografia!, fotoPerfil);
+		await artistaService.CadastrarArtistaAsync(artista);
+		navigationManager.NavigateTo("/Artistas");
+	}
 
 	private void VoltarListagemArtistas()
 	{
@@ -86,14 +88,13 @@
 
 	private async Task UploadImagem(IBrowserFile file)
 	{
-		long maxFileSize = 1024 * 1024 * 15;
 		var format = "image/jpeg";
 		var resizedImage = await file.RequestImageFileAsync(format, 200, 200);
 
 		using var fileStream = resizedImage.OpenReadStream();
 		using var memoryStream = new MemoryStream();
 		await fileStream.CopyToAsync(memoryStream);
-
-		fileImage = $"data:{format};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+		var imageUpload = Convert.ToBase64String(memoryStream.ToArray());
+		fotoPerfil = imageUpload;
 	}
 }
