@@ -13,7 +13,7 @@ public class ArtistaService
         _httpClient = factory.CreateClient("ScreenSoundAPI");
     }
 
-    public async Task<ICollection<ArtistaResponse>> GetArtistas()
+    public async Task<ICollection<ArtistaResponse>> GetArtistaAsyncs()
     {
         return await _httpClient.GetFromJsonAsync<List<ArtistaResponse>>("Artistas");
     }

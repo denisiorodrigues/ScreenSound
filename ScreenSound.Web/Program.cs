@@ -9,7 +9,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
-builder.Services.AddTransient<ArtistaService>();
+builder.Services.AddScoped<ArtistaService>();
+builder.Services.AddScoped<GeneroService>();
 
 builder.Services.AddHttpClient("ScreenSoundAPI", client => {
     client.BaseAddress = new Uri(builder.Configuration["BaseApi:Url"]!);

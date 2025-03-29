@@ -31,7 +31,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        artistas = await artistaService.GetArtistas();
+        artistas = await artistaService.GetArtistaAsyncs();
         if(artistas is not null)
         {
             artistas = artistas.OrderByDescending(a => a.Id).ToList();
