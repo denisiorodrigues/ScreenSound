@@ -1,7 +1,17 @@
 # ScreenSound
-Aplicação para cadastro de artistas e suas músicas.
+Aplicação para gerenciamento de artistas e suas múcicas.
 
 ![Página inicial da aplicação](./docs/print-screen-index-page.png)
+
+### Backlog
+
+- Uma ideia seria adicionar o serviço do MinIO para armazenamento de arquivos.
+
+## Dependências
+Abaixo as dependências necessárias para rodar a aplicação.
+No docker compose, temos os serviços abaixo:
+
+* PostgresSQL
 
 
 ## Migrations
@@ -26,7 +36,9 @@ Remover uma migração
 dotnet ef migrations remove --project ./ScreenSound.Dados/
 ```
 
-## Execução do Projeto no Rider
+## Executando o projeto no editor favorito
+
+### Execução do Projeto no Rider
 
 1.  **Abra as Configurações de Execução:**
     * No Rider, clique no menu suspenso de configurações de execução (canto superior direito).
@@ -46,12 +58,12 @@ dotnet ef migrations remove --project ./ScreenSound.Dados/
     * Clique em "Aplicar" e "OK".
     * Selecione a configuração composta e clique em "Play".
 
-## Observações
+#### Observações
 
 * Certifique-se de que as portas e dependências estejam corretamente configuradas.
 * Verifique os logs do Docker e do aplicativo em caso de erros.
 
-## Execução do Projeto no Visual Studio
+### Execução do Projeto no Visual Studio
 
 1.  **Configure a inicialização de vários projetos:**
     * No Solution Explorer, clique com o botão direito na solução e selecione "Propriedades".
@@ -63,7 +75,7 @@ dotnet ef migrations remove --project ./ScreenSound.Dados/
 2.  **Execute o projeto:**
     * Clique no botão "Iniciar" (ou pressione F5) para executar os projetos web e API simultaneamente.
 
-## Observações
+#### Observações
 
 * Certifique-se de que as portas e dependências estejam corretamente configuradas.
 * Verifique os logs do Docker e do aplicativo em caso de erros.

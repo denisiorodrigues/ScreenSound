@@ -13,20 +13,4 @@ services:
 
 volumes:
     pg_data:
-
-# services:
-#     db:
-#         image: mcr.microsoft.com/mssql/server:2019-latest
-#         restart: always
-#         environment:
-#             ACCEPT_EULA: Y
-#             SA_PASSWORD: senha123
-#             MSSQL_USER: app
-#             MSSQL_DATABASE: ScreenSound
-#         ports:
-#             - '1433:1433'
-#         volumes:
-#             - mssql_data:/var/opt/mssql/data
-
-# volumes:
-#     mssql_data:
+    
