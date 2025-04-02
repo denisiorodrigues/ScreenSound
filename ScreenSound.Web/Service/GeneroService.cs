@@ -9,7 +9,7 @@ public class GeneroService
 
     public GeneroService(IHttpClientFactory factory)
     {
-        _httpClient = factory.CreateClient("API");
+        _httpClient = factory.CreateClient("ScreenSoundAPI");
     }
 
     public async Task<List<GeneroResponse>?> GetGenerosAsync()
