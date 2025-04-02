@@ -18,8 +18,23 @@ public class MusicaService
         return await _httpClient.GetFromJsonAsync<List<MusicaResponse>>("Musicas");
     }
 
+    public async Task<MusicaResponse> GetMusicaPorNomeAsync(string nomeDaMusica)
+    {
+        return await _httpClient.GetFromJsonAsync<MusicaResponse>($"Musicas/{nomeDaMusica}");
+    }
+
     public async Task CadastrarMusicaAsync(MusicaRequest request)
     {
         await _httpClient.PostAsJsonAsync($"Musicas", request);
+    }
+
+    public async Task AtualizarMusicaAsync(MusicaRequestEdit musicaRequestEdit)
+    {
+        await _httpClient.PutAsJsonAsync("Musicas", musicaRequestEdit);
+    }
+
+    public async Task DeletarMusicaAsync(int musicaId)
+    {
+        await _httpClient.DeleteAsync($"Musicas/{musicaId}");
     }
 }

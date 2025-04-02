@@ -2,7 +2,7 @@
 
 public class DAL<T> where T : class
 {
-    protected readonly ScreenSoundContext context;
+    internal readonly ScreenSoundContext context;
 
     public DAL(ScreenSoundContext context)
     {

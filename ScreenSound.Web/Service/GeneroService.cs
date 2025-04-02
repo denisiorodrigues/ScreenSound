@@ -16,6 +16,7 @@ public class GeneroService
     {
         return await _httpClient.GetFromJsonAsync<List<GeneroResponse>>("Generos");
     } 
+
     public async Task<GeneroResponse?> GetGeneroPorNomeAsync(string nome)
     {
         return await _httpClient.GetFromJsonAsync<GeneroResponse>($"Generos/{nome}");

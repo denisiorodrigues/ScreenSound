@@ -1,3 +1,3 @@
 ﻿namespace ScreenSound.Web.Requests;
 
-public record GeneroRequest(string Nome, string Descricao);
+public record GeneroRequest(int Id, string Nome, string Descricao);

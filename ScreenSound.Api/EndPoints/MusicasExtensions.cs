@@ -3,6 +3,7 @@ using ScreenSound.Api.Requests;
 using ScreenSound.Api.Response;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
+using System.Collections.ObjectModel;
 
 namespace ScreenSound.Api.EndPoints;
 
@@ -18,7 +19,7 @@ public static class MusicasExtensions
 
         app.MapGet("/Musicas/{nome}", ([FromServices] DAL<Musica> dal, string nome) =>
         {
-            var musica = dal.RecuperarPor(a => a.Nome.ToLower().Equals(nome.ToLower()));
+            var musica = dal.RecuperarMusicaPorNomeComGeneros(nome);
             if (musica == null)
             {
                 return Results.NotFound();
@@ -48,10 +49,10 @@ public static class MusicasExtensions
             return Results.Ok();
         });
 
-        app.MapPut("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequestEdit musicaRequest
+        app.MapPut("/Musicas", ([FromServices] DAL<Musica> musicaDAL, [FromServices] DAL<Genero> generoDAL, [FromBody] MusicaRequestEdit musicaRequest
             ) =>
         {
-            var musicaAAtualizar = dal.RecuperarPor(a => a.Id == musicaRequest.id);
+            var musicaAAtualizar = musicaDAL.RecuperarPor(a => a.Id == musicaRequest.id);
             if (musicaAAtualizar == null)
             {
                 return Results.NotFound();
@@ -60,7 +61,9 @@ public static class MusicasExtensions
             musicaAAtualizar.Nome = musicaRequest.nome;
             musicaAAtualizar.AnoLancamento = musicaRequest.anoLancamento;
             musicaAAtualizar.ArtistaId = musicaRequest.ArtistaId;
-            dal.Atualizar(musicaAAtualizar);
+            musicaAAtualizar.Generos = GeneroRequestConverter(generoDAL, musicaRequest.Generos);
+
+            musicaDAL.Atualizar(musicaAAtualizar);
 
             return Results.Ok();
         });
@@ -82,7 +85,7 @@ public static class MusicasExtensions
     private static ICollection<Genero> GeneroRequestConverter(DAL<Genero> generoDAL, ICollection<GeneroRequest> generos)
     {
         if (generos is null) return new List<Genero>();
-        var generoRelacionado = new List<Genero>(); 
+        var generoRelacionado = new List<Genero>();
 
         foreach (var generoResponse in generos)
         {
@@ -106,6 +109,11 @@ public static class MusicasExtensions
         return new Genero() { Nome = generoRequest.Nome, Descricao = generoRequest.Descricao };
     }
 
+    private static ICollection<GeneroResponse> GenerosToGenerosResponseEdit(ICollection<Genero> generos)
+    {
+        return generos.Select(s => new GeneroResponse(s.Id, s.Nome, s.Descricao)).ToList();
+    }
+
     private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicaList)
     {
         return musicaList.Select(a => EntityToResponse(a)).ToList();
@@ -113,6 +121,7 @@ public static class MusicasExtensions
 
     private static MusicaResponse EntityToResponse(Musica musica)
     {
-        return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista?.Id, musica.Artista?.Nome);
+        var generosResponse = GenerosToGenerosResponseEdit(musica.Generos);
+        return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista?.Id, musica.Artista?.Nome, musica.AnoLancamento, generosResponse);
     }
 }

@@ -65,6 +65,6 @@ public static class GeneroExtensions
 
     private static GeneroResponse ConvertEntityToResponse(Genero g)
     {
-        return new GeneroResponse(g.Nome, g.Descricao);
+        return new GeneroResponse(g.Id, g.Nome, g.Descricao);
     }
 }

@@ -1,3 +1,3 @@
 ﻿namespace ScreenSound.Api.Response;
 
-public record GeneroResponse(string Nome, string Descricao);
+public record GeneroResponse(int Id, string Nome, string Descricao);
