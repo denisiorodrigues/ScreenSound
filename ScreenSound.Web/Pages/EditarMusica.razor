@@ -15,16 +15,16 @@
     <MudForm>
 
         <MudTextField Class="mt-4" T="string" Placeholder="Nome da música/canção"
-                      @bind-Value="nome"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="Campo obrigatório." />
+        @bind-Value="nome"
+        Variant="Variant.Outlined"
+        Required="true"
+        RequiredError="Campo obrigatório." />
 
         <MudSelect Class="mt-4" T="ArtistaResponse"
-                   Label="Artistas"
-                   Variant="Variant.Outlined"
-                   AnchorOrigin="Origin.BottomCenter"
-                   @bind-Value="ArtistaDaMusica">
+        Label="Artistas"
+        Variant="Variant.Outlined"
+        AnchorOrigin="Origin.BottomCenter"
+        @bind-Value="ArtistaDaMusica">
             @if (Artistas is not null)
             {
                 @foreach (var artista in Artistas)
@@ -35,17 +35,17 @@
         </MudSelect>
 
         <MudNumericField Class="mt-4" Placeholder="Ano de lançamento"
-                         @bind-Value="anoLancamento"
-                         Variant="Variant.Outlined"
-                         Lines="1"
-                         Required="true"
-                         RequiredError="Campo obrigatório." />
+        @bind-Value="anoLancamento"
+        Variant="Variant.Outlined"
+        Lines="1"
+        Required="true"
+        RequiredError="Campo obrigatório." />
 
         <MudSelect Class="mt-4" T="GeneroResponse"
-                   Label="Gêneros"
-                   Variant="Variant.Outlined"
-                   AnchorOrigin="Origin.BottomCenter"
-                   ValueChanged="@GeneroOnValueChanged">
+        Label="Gêneros"
+        Variant="Variant.Outlined"
+        AnchorOrigin="Origin.BottomCenter"
+        ValueChanged="@GeneroOnValueChanged">
 
             @if (Generos is not null)
             {
@@ -71,21 +71,21 @@
 
         <div class="d-flex align-center justify-space-between mt-4">
             <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       @onclick="Salvar"
-                       Class="ml-auto">
+            Color="Color.Primary"
+            @onclick="Salvar"
+            Class="ml-auto">
                 Salvar
             </MudButton>
             <MudButton Variant="Variant.Filled"
-                       Color="Color.Info"
-                       @onclick="Voltar"
-                       Class="ml-3">
+            Color="Color.Info"
+            @onclick="Voltar"
+            Class="ml-3">
                 Voltar
             </MudButton>
             <MudButton Variant="Variant.Filled"
-                       Color="Color.Error"
-                       Class="ml-3"
-                       @onclick="Deletar">
+            Color="Color.Error"
+            Class="ml-3"
+            @onclick="Deletar">
                 Deletar
             </MudButton>
         </div>
@@ -154,6 +154,7 @@
             }
 
             var musicaRequestEdit = new MusicaRequestEdit(Musica.Id, ArtistaDaMusica.Id, nome!, anoLancamento.Value, GenerosRequest);
+            // musicaRequestEdit.Generos = GenerosRequest;
             await musicaService.AtualizarMusicaAsync(musicaRequestEdit);
             NavigationManager.NavigateTo("/MusicasPorArtistas");
         }
