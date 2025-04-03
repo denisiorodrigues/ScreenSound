@@ -55,12 +55,19 @@
                 }
             }
 
-            @foreach (var genero in GenerosSelecionados)
+            @* @foreach (var genero in GenerosSelecionados)
             {
                 <MudAlert Severity="Severity.Info">@(genero.Nome) adicionado como gênero da música.</MudAlert>
-            }
-
+            } *@
         </MudSelect>
+
+        <div class="d-flex mud-width-full align-center mt-8">
+            <MudText Typo="Typo.subtitle1" Class="mr-2">Gênero selecionados: </MudText>
+            @foreach (var genero in GenerosSelecionados)
+            {
+                <MudChip T="string">@genero.Nome</MudChip>
+            }
+        </div>
 
         <div class="d-flex align-center justify-space-between mt-4">
             <MudButton Variant="Variant.Filled"
