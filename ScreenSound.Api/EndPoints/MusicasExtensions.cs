@@ -3,7 +3,6 @@ using ScreenSound.Api.Requests;
 using ScreenSound.Api.Response;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
-using System.Collections.ObjectModel;
 
 namespace ScreenSound.Api.EndPoints;
 
