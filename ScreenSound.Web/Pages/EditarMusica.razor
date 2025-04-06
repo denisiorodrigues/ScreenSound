@@ -117,7 +117,7 @@
 
         anoLancamento = Musica!.AnoLancamento;
         nome = Musica!.Nome;
-        ArtistaDaMusica = new ArtistaResponse(Musica.ArtistaId.Value, Musica.NomeArtista, "", "");
+        ArtistaDaMusica = new ArtistaResponse(Musica.ArtistaId!.Value, Musica.NomeArtista, "", "");
 
         ArtistaSelecionado(ArtistaDaMusica);
 

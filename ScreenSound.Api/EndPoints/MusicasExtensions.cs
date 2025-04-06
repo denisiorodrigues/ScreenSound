@@ -57,6 +57,8 @@ public static class MusicasExtensions
                 return Results.NotFound();
             }
 
+            musicaAAtualizar.Generos.Clear();
+
             musicaAAtualizar.Nome = musicaRequest.nome;
             musicaAAtualizar.AnoLancamento = musicaRequest.anoLancamento;
             musicaAAtualizar.ArtistaId = musicaRequest.ArtistaId;
