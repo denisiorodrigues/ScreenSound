@@ -29,5 +29,7 @@ public class ScreenSoundContext: DbContext
         modelBuilder.Entity<Musica>()
             .HasMany(a => a.Generos)
             .WithMany(m => m.Musicas);
+
+        base.OnModelCreating(modelBuilder);
     }
 }
