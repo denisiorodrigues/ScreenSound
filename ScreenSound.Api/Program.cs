@@ -19,20 +19,23 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 //});
 
 builder.Services.AddDbContext<ScreenSoundContext>();
-builder.Services.AddTransient<DAL<Artista>>();
-builder.Services.AddTransient<DAL<Musica>>();
-builder.Services.AddTransient<DAL<Genero>>();
+builder.Services.AddScoped<DAL<Artista>>();
+builder.Services.AddScoped<DAL<Musica>>();
+builder.Services.AddScoped<DAL<Genero>>();
 
-builder.Services.AddCors();
+builder.Services.AddCors(
+    options => options.AddPolicy(
+        "wasm",
+        policy => policy.WithOrigins([builder.Configuration["BackendUrl"] ?? "https://localhost:7089",
+            builder.Configuration["FrontendUrl"] ?? "https://localhost:7015"])
+            .AllowAnyMethod()
+            .SetIsOriginAllowed(pol => true)
+            .AllowAnyHeader()
+            .AllowCredentials()));
 
 var app = builder.Build();
 
-app.UseCors(options =>
-{
-    options.AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader();
-});
+app.UseCors("wasm");
 
 app.UseStaticFiles();
 
