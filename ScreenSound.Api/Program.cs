@@ -1,5 +1,6 @@
 using ScreenSound.Api.EndPoints;
 using ScreenSound.Dados.Banco;
+using ScreenSound.Dados.Modelos;
 using ScreenSound.Modelos;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,11 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 //});
 
 builder.Services.AddDbContext<ScreenSoundContext>();
+
+builder.Services
+    .AddIdentityApiEndpoints<PessoaComAcesso>()
+    .AddEntityFrameworkStores<ScreenSoundContext>();
+
 builder.Services.AddScoped<DAL<Artista>>();
 builder.Services.AddScoped<DAL<Musica>>();
 builder.Services.AddScoped<DAL<Genero>>();
@@ -36,6 +42,8 @@ builder.Services.AddCors(
 var app = builder.Build();
 
 app.UseCors("wasm");
+
+app.MapGroup("auth").MapIdentityApi<PessoaComAcesso>().WithTags("Autorização");
 
 app.UseStaticFiles();
 
