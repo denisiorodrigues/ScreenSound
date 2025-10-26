@@ -25,6 +25,8 @@ builder.Services
     .AddIdentityApiEndpoints<PessoaComAcesso>()
     .AddEntityFrameworkStores<ScreenSoundContext>();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<DAL<Artista>>();
 builder.Services.AddScoped<DAL<Musica>>();
 builder.Services.AddScoped<DAL<Genero>>();
@@ -42,10 +44,10 @@ builder.Services.AddCors(
 var app = builder.Build();
 
 app.UseCors("wasm");
+app.UseStaticFiles();
+app.UseAuthorization();
 
 app.MapGroup("auth").MapIdentityApi<PessoaComAcesso>().WithTags("Autorização");
-
-app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
