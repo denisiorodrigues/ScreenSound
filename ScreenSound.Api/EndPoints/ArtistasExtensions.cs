@@ -15,11 +15,11 @@ public static class ArtistasExtensions
             .WithTags("Artistas");
 
         groupBuilder
-            .MapGet("/Artistas",
+            .MapGet("",
                 ([FromServices] DAL<Artista> dal) => { return Results.Ok(EntityListToResponseList(dal.Listar())); })
             .RequireAuthorization();
 
-        groupBuilder.MapGet("/Artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
+        groupBuilder.MapGet("{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
             var artista = dal.RecuperarPor(a => a.Nome.ToLower().Equals(nome.ToLower()));
             if (artista == null) return Results.NotFound();
@@ -27,7 +27,7 @@ public static class ArtistasExtensions
             return Results.Ok(EntityToResponse(artista));
         }).RequireAuthorization();
 
-        groupBuilder.MapPost("/Artistas",
+        groupBuilder.MapPost("",
             async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal,
                 [FromBody] ArtistaRequest artistaRequest) =>
             {
@@ -49,7 +49,7 @@ public static class ArtistasExtensions
                 return Results.Ok();
             }).RequireAuthorization();
 
-        groupBuilder.MapPut("/Artistas",
+        groupBuilder.MapPut("",
             ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequestEdit artistaRequest) =>
             {
                 var artistaAAtualizar = dal.RecuperarPor(a => a.Id == artistaRequest.id);
@@ -62,7 +62,7 @@ public static class ArtistasExtensions
                 return Results.Ok();
             }).RequireAuthorization();
 
-        groupBuilder.MapDelete("/Artistas/{id}", ([FromServices] DAL<Artista> dal, int id) =>
+        groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
         {
             var artistaADeletar = dal.RecuperarPor(a => a.Id == id);
             if (artistaADeletar == null) return Results.NotFound();

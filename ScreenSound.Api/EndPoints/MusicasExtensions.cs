@@ -10,10 +10,17 @@ public static class MusicasExtensions
 {
     public static void AddEndPointsMusicas(this WebApplication app)
     {
-        app.MapGet("/Musicas",
-            ([FromServices] DAL<Musica> dal) => { return Results.Ok(EntityListToResponseList(dal.Listar())); });
+        var groupBuilder = app.MapGroup("musicas")
+            .RequireAuthorization()
+            .WithTags("Músicas");
+        
+        groupBuilder.MapGet("",
+            ([FromServices] DAL<Musica> dal) =>
+            {
+                return Results.Ok(EntityListToResponseList(dal.Listar()));
+            });
 
-        app.MapGet("/Musicas/{nome}", ([FromServices] DAL<Musica> dal, string nome) =>
+        groupBuilder.MapGet("{nome}", ([FromServices] DAL<Musica> dal, string nome) =>
         {
             var musica = dal.RecuperarMusicaPorNomeComGeneros(nome);
             if (musica == null) return Results.NotFound();
@@ -21,7 +28,7 @@ public static class MusicasExtensions
             return Results.Ok(EntityToResponse(musica));
         });
 
-        app.MapGet("/Musicas/Artista/{artistaId}", ([FromServices] DAL<Musica> dal, int artistaId) =>
+        groupBuilder.MapGet("/artista/{artistaId}", ([FromServices] DAL<Musica> dal, int artistaId) =>
         {
             var musicas = dal.ListarPor(a => a.Artista.Id == artistaId);
             if (musicas == null) return Results.NotFound();
@@ -29,7 +36,7 @@ public static class MusicasExtensions
             return Results.Ok(musicas);
         });
 
-        app.MapPost("/Musicas",
+        groupBuilder.MapPost("",
             ([FromServices] DAL<Musica> musicaDAL, [FromServices] DAL<Genero> generoDAL,
                 [FromBody] MusicaRequest musicaRequest) =>
             {
@@ -41,7 +48,7 @@ public static class MusicasExtensions
                 return Results.Ok();
             });
 
-        app.MapPut("/Musicas", ([FromServices] DAL<Musica> musicaDAL, [FromServices] DAL<Genero> generoDAL,
+        groupBuilder.MapPut("", ([FromServices] DAL<Musica> musicaDAL, [FromServices] DAL<Genero> generoDAL,
             [FromBody] MusicaRequestEdit musicaRequest
         ) =>
         {
@@ -58,7 +65,7 @@ public static class MusicasExtensions
             return Results.Ok();
         });
 
-        app.MapDelete("/Musicas/{id}", ([FromServices] DAL<Musica> dal, int id) =>
+        groupBuilder.MapDelete("{id}", ([FromServices] DAL<Musica> dal, int id) =>
         {
             var musicaADeletar = dal.RecuperarPor(a => a.Id == id);
             if (musicaADeletar == null) return Results.NotFound();
