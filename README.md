@@ -11,8 +11,8 @@ Aplicação para gerenciamento de artistas e suas múcicas.
 Abaixo as dependências necessárias para rodar a aplicação.
 No docker compose, temos os serviços abaixo:
 
-* PostgresSQL
-
+* ~~PostgresSQL~~
+* MySql
 
 ## Migrations
 
@@ -28,6 +28,11 @@ Criar a migração
 
 ```bash
 dotnet ef migrations add PopularTabelaMusicas --project ./ScreenSound.Dados/
+```
+
+Criando uma migração
+```bash
+dotnet ef migrations add CriarTebelasArtistaEMusica --project ScreenSound.Dados --startup-project ScreenSound.API
 ```
 
 Remover uma migração

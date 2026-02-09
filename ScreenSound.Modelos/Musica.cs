@@ -1,4 +1,6 @@
-﻿namespace ScreenSound.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ScreenSound.Modelos;
 
 public class Musica
 {
@@ -11,6 +13,8 @@ public class Musica
     }
 
     public string Nome { get; set; }
+    
+    [Key]
     public int Id { get; set; }
 
     public int? AnoLancamento { get; set; }

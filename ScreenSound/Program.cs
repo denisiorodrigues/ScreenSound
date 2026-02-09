@@ -1,8 +1,11 @@
-﻿using ScreenSound.Dados.Banco;
+﻿using Microsoft.EntityFrameworkCore;
+using ScreenSound.Dados.Banco;
 using ScreenSound.Menus;
 using ScreenSound.Modelos;
 
-var context = new ScreenSoundContext();
+var options = new DbContextOptionsBuilder<ScreenSoundContext>().Options;
+
+var context = new ScreenSoundContext(options);
 var artistaDAL = new DAL<Artista>(context);
 
 Dictionary<int, Menu> opcoes = new();

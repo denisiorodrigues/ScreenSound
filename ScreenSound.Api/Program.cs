@@ -2,23 +2,30 @@ using ScreenSound.Api.EndPoints;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using ScreenSound.Dados.Modelos;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-//builder.Services.AddDbContext<ScreenSoundContext>((options) => {
-//    options
-//            .UseSqlServer(builder.Configuration["ConnectionStrings:ScreenSoundDB"])
-//            .UseLazyLoadingProxies();
-//});
+var connectionString = builder.Configuration.GetConnectionString("ScreenSoundDB");
 
-builder.Services.AddDbContext<ScreenSoundContext>();
+Console.WriteLine(connectionString);
+
+builder.Services.AddDbContext<ScreenSoundContext>(options =>
+{
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 44)));
+});
+
+builder.Services
+    .AddIdentityApiEndpoints<PessoaComAcesso>()
+    .AddEntityFrameworkStores<ScreenSoundContext>();
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddTransient<DAL<Artista>>();
 builder.Services.AddTransient<DAL<Musica>>();
 builder.Services.AddTransient<DAL<Genero>>();
@@ -35,6 +42,7 @@ app.UseCors(options =>
 });
 
 app.UseStaticFiles();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -48,5 +56,3 @@ app.AddEndPointsMusicas();
 app.AddEndPointsGeneros();
 
 app.Run();
-
-public partial class Program { }

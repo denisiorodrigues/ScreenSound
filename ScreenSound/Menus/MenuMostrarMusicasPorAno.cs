@@ -1,4 +1,5 @@
-﻿using ScreenSound.Dados.Banco;
+﻿using Microsoft.EntityFrameworkCore;
+using ScreenSound.Dados.Banco;
 using ScreenSound.Modelos;
 
 namespace ScreenSound.Menus;
@@ -11,7 +12,8 @@ internal class MenuMostrarMusicasPorAno : Menu
         ExibirTituloDaOpcao("Exibir detalhes do artista");
         Console.Write("Digite o ano de lançamento da música: ");
         string anoLancamento = Console.ReadLine()!;
-        var musicaDAL = new DAL<Musica>(new ScreenSoundContext());
+        var context = CriarContexto();
+        var musicaDAL = new DAL<Musica>(context);
         var listaMusicasAnoLancamento = musicaDAL.ListarPor(a => a.AnoLancamento.Value == Convert.ToInt32(anoLancamento));
         if (listaMusicasAnoLancamento.Any())
         {
@@ -32,5 +34,12 @@ internal class MenuMostrarMusicasPorAno : Menu
             Console.ReadKey();
             Console.Clear();
         }
+    }
+    
+    private ScreenSoundContext CriarContexto()
+    {
+        var options = new DbContextOptionsBuilder<ScreenSoundContext>().Options;
+    
+        return new ScreenSoundContext(options);
     }
 }
