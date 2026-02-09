@@ -57,4 +57,6 @@ app.AddEndPointsArtistas();
 app.AddEndPointsMusicas();
 app.AddEndPointsGeneros();
 
+app.MapGroup("auth").MapIdentityApi<PessoaComAcesso>().WithTags("Autorização");
+
 app.Run();

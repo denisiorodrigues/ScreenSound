@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ScreenSound.Dados.Modelos;
 using ScreenSound.Modelos;
 
 namespace ScreenSound.Dados.Banco;
 
-public class ScreenSoundContext : DbContext
+public class ScreenSoundContext : IdentityDbContext<PessoaComAcesso, PerfilDeAcesso, int>
 {
     public ScreenSoundContext(DbContextOptions<ScreenSoundContext> options) : base(options)
     {
