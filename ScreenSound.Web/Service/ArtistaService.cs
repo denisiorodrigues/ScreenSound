@@ -1,6 +1,6 @@
-﻿using ScreenSound.Web.Requests;
+﻿using System.Net.Http.Json;
+using ScreenSound.Web.Requests;
 using ScreenSound.Web.Response;
-using System.Net.Http.Json;
 
 namespace ScreenSound.Web.Service;
 
@@ -20,16 +20,13 @@ public class ArtistaService
 
     public async Task CadastrarArtistaAsync(ArtistaRequest request)
     {
-        await _httpClient.PostAsJsonAsync($"Artistas", request);
+        await _httpClient.PostAsJsonAsync("Artistas", request);
     }
 
     public async Task EditarArtistaAsync(ArtistaRequestEdit request)
     {
-        var response = await _httpClient.PutAsJsonAsync($"Artistas", request);
-        if (response == null || !response.IsSuccessStatusCode)
-        {
-            throw new Exception("Erro ao editar artista");
-        }
+        var response = await _httpClient.PutAsJsonAsync("Artistas", request);
+        if (response == null || !response.IsSuccessStatusCode) throw new Exception("Erro ao editar artista");
     }
 
     public async Task DeletarArtistaAsync(int id)

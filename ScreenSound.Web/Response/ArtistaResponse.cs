@@ -4,6 +4,6 @@ public record ArtistaResponse(int Id, string Nome, string Bio, string? FotoPerfi
 {
     public override string ToString()
     {
-        return this.Nome;
+        return Nome;
     }
 }

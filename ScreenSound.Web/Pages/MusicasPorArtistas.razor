@@ -15,14 +15,14 @@
         @foreach (var musica in musicasPorArtistas)
         {
             <MudItem xs="3">
-                <CardMusica Musica="@musica" />
+                <CardMusica Musica="@musica"/>
             </MudItem>
         }
     </MudGrid>
 }
 
 @code {
-    private int tamanho = 8;
+    private readonly int tamanho = 8;
     private int totalItens;
     private int totalPaginas;
     private ICollection<MusicaResponse>? musicasPorArtistas;
@@ -36,8 +36,8 @@
         {
             musicas = musicas.OrderByDescending(a => a.Id).ToList();
             totalItens = musicas.Count();
-            totalPaginas = Convert.ToInt32(Math.Ceiling((totalItens * 1.0 / tamanho)));
-            this.PaginaMudou(1);
+            totalPaginas = Convert.ToInt32(Math.Ceiling(totalItens * 1.0 / tamanho));
+            PaginaMudou(1);
         }
     }
 
@@ -45,7 +45,8 @@
     {
         var indice = pagina - 1;
         musicasPorArtistas = musicas!.Skip(tamanho * indice)
-                                     .Take(tamanho)
-                                     .ToList();
+            .Take(tamanho)
+            .ToList();
     }
+
 }

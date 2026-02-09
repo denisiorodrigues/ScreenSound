@@ -1,44 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
-		<IsPackable>false</IsPackable>
-		<IsTestProject>true</IsTestProject>
-		<PreserveCompilationContext>true</PreserveCompilationContext>
-	</PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="coverlet.collector" Version="6.0.4">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.23" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
-		<PackageReference Include="xunit" Version="2.4.2" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.14"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14"/>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.23"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\ScreenSound.Api\ScreenSound.Api.csproj" />
-		<ProjectReference Include="..\ScreenSound.Modelos\ScreenSound.Modelos.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ScreenSound.Api\ScreenSound.Api.csproj"/>
+        <ProjectReference Include="..\ScreenSound.Modelos\ScreenSound.Modelos.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<Using Include="Xunit" />
-	</ItemGroup>
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<None Update="..\ScreenSound.Api\bin\Debug\net7.0\testhost.deps.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Update="..\ScreenSound.Api\bin\Debug\net7.0\testhost.deps.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 </Project>

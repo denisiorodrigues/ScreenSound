@@ -41,15 +41,15 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("Digite -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
-    string opcaoEscolhida = Console.ReadLine()!;
-    int opcaoEscolhidaNumerica = int.Parse(opcaoEscolhida);
+    var opcaoEscolhida = Console.ReadLine()!;
+    var opcaoEscolhidaNumerica = int.Parse(opcaoEscolhida);
 
     if (opcoes.ContainsKey(opcaoEscolhidaNumerica))
     {
-        Menu menuASerExibido = opcoes[opcaoEscolhidaNumerica];
+        var menuASerExibido = opcoes[opcaoEscolhidaNumerica];
         menuASerExibido.Executar(artistaDAL);
         if (opcaoEscolhidaNumerica > 0) ExibirOpcoesDoMenu();
-    } 
+    }
     else
     {
         Console.WriteLine("Opção inválida");

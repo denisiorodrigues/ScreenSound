@@ -11,17 +11,15 @@ internal class MenuMostrarMusicasPorAno : Menu
         base.Executar(artistaDAL);
         ExibirTituloDaOpcao("Exibir detalhes do artista");
         Console.Write("Digite o ano de lançamento da música: ");
-        string anoLancamento = Console.ReadLine()!;
+        var anoLancamento = Console.ReadLine()!;
         var context = CriarContexto();
         var musicaDAL = new DAL<Musica>(context);
-        var listaMusicasAnoLancamento = musicaDAL.ListarPor(a => a.AnoLancamento.Value == Convert.ToInt32(anoLancamento));
+        var listaMusicasAnoLancamento =
+            musicaDAL.ListarPor(a => a.AnoLancamento.Value == Convert.ToInt32(anoLancamento));
         if (listaMusicasAnoLancamento.Any())
         {
             Console.WriteLine($"\nMúsicas do Ano {anoLancamento}:");
-            foreach (var musica in listaMusicasAnoLancamento)
-            {
-                musica.ExibirFichaTecnica();
-            }
+            foreach (var musica in listaMusicasAnoLancamento) musica.ExibirFichaTecnica();
 
             Console.WriteLine("\nDigite uma tecla para voltar ao menu principal");
             Console.ReadKey();
@@ -35,11 +33,11 @@ internal class MenuMostrarMusicasPorAno : Menu
             Console.Clear();
         }
     }
-    
+
     private ScreenSoundContext CriarContexto()
     {
         var options = new DbContextOptionsBuilder<ScreenSoundContext>().Options;
-    
+
         return new ScreenSoundContext(options);
     }
 }

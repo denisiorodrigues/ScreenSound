@@ -4,7 +4,9 @@ namespace ScreenSound.Modelos;
 
 public class Musica
 {
-    public Musica() { } //EF
+    public Musica()
+    {
+    } //EF
 
     public Musica(string nome, int? anoLancamento)
     {
@@ -13,9 +15,8 @@ public class Musica
     }
 
     public string Nome { get; set; }
-    
-    [Key]
-    public int Id { get; set; }
+
+    [Key] public int Id { get; set; }
 
     public int? AnoLancamento { get; set; }
 
@@ -28,7 +29,6 @@ public class Musica
     public void ExibirFichaTecnica()
     {
         Console.WriteLine($"Nome: {Nome} - {AnoLancamento}");
-      
     }
 
     public override string ToString()

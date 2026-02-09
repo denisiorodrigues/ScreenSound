@@ -12,44 +12,44 @@
 	<MudForm @ref="_form" @bind-IsValid="_success">
 
 		<MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
-		@bind-Value="nome"
-		Variant="Variant.Outlined"
-		Required="true"
-		RequiredError="Campo obrigatório." />
+		              @bind-Value="nome"
+		              Variant="Variant.Outlined"
+		              Required="true"
+		              RequiredError="Campo obrigatório."/>
 
 		<MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
-		@bind-Value="biografia"
-		Variant="Variant.Outlined"
-		Lines="4"
-		Required="true"
-		RequiredError="Campo obrigatório." />
+		              @bind-Value="biografia"
+		              Variant="Variant.Outlined"
+		              Lines="4"
+		              Required="true"
+		              RequiredError="Campo obrigatório."/>
 
-		<MudImage Class="mt-4" src="@fileImage" />
+		<MudImage Class="mt-4" src="@fileImage"/>
 		<MudFileUpload T="IBrowserFile" Accept=".jpeg" FilesChanged="UploadImagem">
 			<ButtonTemplate>
 				<MudButton HtmlTag="label"
-				Variant="Variant.Filled"
-				Color="Color.Primary"
-				StartIcon="@Icons.Material.Filled.PhotoCamera"
-				for="@context">
+				           Variant="Variant.Filled"
+				           Color="Color.Primary"
+				           StartIcon="@Icons.Material.Filled.PhotoCamera"
+				           for="@context">
 					Foto de Perfil
 				</MudButton>
 			</ButtonTemplate>
 		</MudFileUpload>
 		<div class="d-flex align-center justify-space-between mt-4">
 			<MudButton Variant="Variant.Filled"
-					   @onclick="Cadastrar"
-					   Color="Color.Primary"
-					   StartIcon="@Icons.Material.Filled.NewReleases"
-					   Class="ml-auto">
+			           @onclick="Cadastrar"
+			           Color="Color.Primary"
+			           StartIcon="@Icons.Material.Filled.NewReleases"
+			           Class="ml-auto">
 				Cadastrar
 			</MudButton>
 
 			<MudButton Variant="Variant.Filled"
-					   @onclick="VoltarListagemArtistas"
-					   Color="Color.Info"
-					   StartIcon="@Icons.Material.Filled.ArrowBack"
-					   Class="ml-3">
+			           @onclick="VoltarListagemArtistas"
+			           Color="Color.Info"
+			           StartIcon="@Icons.Material.Filled.ArrowBack"
+			           Class="ml-3">
 				Voltar
 			</MudButton>
 		</div>
@@ -90,4 +90,5 @@
 		var imageUpload = Convert.ToBase64String(memoryStream.ToArray());
 		fotoPerfil = imageUpload;
 	}
+
 }

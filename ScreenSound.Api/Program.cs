@@ -1,15 +1,17 @@
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 using ScreenSound.Api.EndPoints;
 using ScreenSound.Dados.Banco;
-using ScreenSound.Modelos;
-using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using ScreenSound.Dados.Modelos;
+using ScreenSound.Modelos;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.Configure<JsonOptions>(options =>
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var connectionString = builder.Configuration.GetConnectionString("ScreenSoundDB");
 
@@ -37,8 +39,8 @@ var app = builder.Build();
 app.UseCors(options =>
 {
     options.AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader();
+        .AllowAnyMethod()
+        .AllowAnyHeader();
 });
 
 app.UseStaticFiles();

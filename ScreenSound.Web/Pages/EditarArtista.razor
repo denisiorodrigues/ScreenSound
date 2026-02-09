@@ -13,50 +13,50 @@
 	<MudForm @ref="_form" @bind-IsValid="_success">
 
 		<MudTextField Class="mt-4" T="string" Placeholder="Nome do Artista"
-					  Variant="Variant.Outlined"
-					  @bind-Value="nome"
-					  Required="true"
-					  RequiredError="Campo obrigatório." />
+		              Variant="Variant.Outlined"
+		              @bind-Value="nome"
+		              Required="true"
+		              RequiredError="Campo obrigatório."/>
 
-        <MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
-                      Variant="Variant.Outlined"
-                      @bind-Value="biografia"
-                      Lines="4"
-                      Required="true"
-                      RequiredError="Campo obrigatório." />
+		<MudTextField Class="mt-4" T="string" Placeholder="Biografia do artista"
+		              Variant="Variant.Outlined"
+		              @bind-Value="biografia"
+		              Lines="4"
+		              Required="true"
+		              RequiredError="Campo obrigatório."/>
 
-        <div class="d-flex align-center justify-space-between mt-4">
-            <MudGrid Spacing="5" Justify="Justify.FlexEnd">
-                <MudItem>
-                    <MudButton Variant="Variant.Filled"
-                               @onclick="Voltar"
-                               Color="Color.Secondary"
-                               StartIcon="@Icons.Material.Filled.ArrowBack"
-                               Class="ml-auto">
-                        Voltar
-                    </MudButton>
-                </MudItem>
-                <MudItem>
-                    <MudButton Variant="Variant.Filled"
-                               StartIcon="@Icons.Material.Filled.Delete"
-                               @onclick="Deletar"
-                               Color="Color.Error"
-                               Class="ml-auto">
-                        Deletar
-                    </MudButton>
-                </MudItem>
-                <MudItem>
-                    <MudButton Variant="Variant.Filled"
-                               @onclick="Salvar"
-                               Color="Color.Primary"
-                               StartIcon="@Icons.Material.Filled.Save"
-                               Class="ml-auto">
-                        Salvar
-                    </MudButton>
-                </MudItem>
-            </MudGrid>
-        </div>
-    </MudForm>
+		<div class="d-flex align-center justify-space-between mt-4">
+			<MudGrid Spacing="5" Justify="Justify.FlexEnd">
+				<MudItem>
+					<MudButton Variant="Variant.Filled"
+					           @onclick="Voltar"
+					           Color="Color.Secondary"
+					           StartIcon="@Icons.Material.Filled.ArrowBack"
+					           Class="ml-auto">
+						Voltar
+					</MudButton>
+				</MudItem>
+				<MudItem>
+					<MudButton Variant="Variant.Filled"
+					           StartIcon="@Icons.Material.Filled.Delete"
+					           @onclick="Deletar"
+					           Color="Color.Error"
+					           Class="ml-auto">
+						Deletar
+					</MudButton>
+				</MudItem>
+				<MudItem>
+					<MudButton Variant="Variant.Filled"
+					           @onclick="Salvar"
+					           Color="Color.Primary"
+					           StartIcon="@Icons.Material.Filled.Save"
+					           Class="ml-auto">
+						Salvar
+					</MudButton>
+				</MudItem>
+			</MudGrid>
+		</div>
+	</MudForm>
 </MudPaper>
 
 @code {
@@ -65,12 +65,11 @@
 
 	private string? nome;
 	private string? biografia;
-	[Parameter]
-	public string? NomeArtista { get; set; }
+	[Parameter] public string? NomeArtista { get; set; }
 	private string? fotoPerfil;
 
 
-    public ArtistaResponse? Artista { get; set; }
+	public ArtistaResponse? Artista { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -97,18 +96,17 @@
 			Snackbar.Clear();
 			Snackbar.Add("Não foi possível salvar o artista.", Severity.Error);
 		}
-
 	}
 
 	private async Task Deletar()
 	{
 		await artistaService.DeletarArtistaAsync(Artista!.Id);
 		navigationManager.NavigateTo("/Artistas");
-
 	}
 
 	private void Voltar()
 	{
 		navigationManager.NavigateTo("Artistas");
 	}
+
 }

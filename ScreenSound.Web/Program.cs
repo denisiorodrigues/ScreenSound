@@ -13,7 +13,8 @@ builder.Services.AddTransient<ArtistaService>();
 builder.Services.AddTransient<GeneroService>();
 builder.Services.AddTransient<MusicaService>();
 
-builder.Services.AddHttpClient("ScreenSoundAPI", client => {
+builder.Services.AddHttpClient("ScreenSoundAPI", client =>
+{
     client.BaseAddress = new Uri(builder.Configuration["BaseApi:Url"]!);
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });

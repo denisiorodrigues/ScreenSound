@@ -11,12 +11,12 @@
     <MudCardActions>
         <MudButton Color="Color.Warning"
                    Variant="Variant.Outlined"
-                   Href=@($"/EditarMusica/{Musica!.Nome}")>Detalhes</MudButton>
+                   Href=@($"/EditarMusica/{Musica!.Nome}")>Detalhes
+        </MudButton>
     </MudCardActions>
 </MudCard>
 
 @code {
-    [Parameter]
-    public MusicaResponse? Musica { get; set; }
+    [Parameter] public MusicaResponse? Musica { get; set; }
 
 }

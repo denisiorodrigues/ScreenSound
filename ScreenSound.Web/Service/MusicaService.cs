@@ -1,6 +1,6 @@
-﻿using ScreenSound.Web.Requests;
+﻿using System.Net.Http.Json;
+using ScreenSound.Web.Requests;
 using ScreenSound.Web.Response;
-using System.Net.Http.Json;
 
 namespace ScreenSound.Web.Service;
 
@@ -25,7 +25,7 @@ public class MusicaService
 
     public async Task CadastrarMusicaAsync(MusicaRequest request)
     {
-        await _httpClient.PostAsJsonAsync($"Musicas", request);
+        await _httpClient.PostAsJsonAsync("Musicas", request);
     }
 
     public async Task AtualizarMusicaAsync(MusicaRequestEdit musicaRequestEdit)

@@ -1,5 +1,5 @@
-﻿using ScreenSound.Web.Response;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
+using ScreenSound.Web.Response;
 
 namespace ScreenSound.Web.Service;
 
@@ -15,7 +15,7 @@ public class GeneroService
     public async Task<List<GeneroResponse>?> GetGenerosAsync()
     {
         return await _httpClient.GetFromJsonAsync<List<GeneroResponse>>("Generos");
-    } 
+    }
 
     public async Task<GeneroResponse?> GetGeneroPorNomeAsync(string nome)
     {

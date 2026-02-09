@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ScreenSound.Modelos; 
+namespace ScreenSound.Modelos;
 
-public class Artista 
+public class Artista
 {
-    public Artista() { } // EF
+    public Artista()
+    {
+    } // EF
 
     public Artista(string nome, string bio)
     {
@@ -18,9 +20,8 @@ public class Artista
     public string Nome { get; set; }
     public string FotoPerfil { get; set; }
     public string Bio { get; set; }
-    
-    [Key]
-    public int Id { get; set; }
+
+    [Key] public int Id { get; set; }
 
     public void AdicionarMusica(Musica musica)
     {
@@ -30,10 +31,7 @@ public class Artista
     public void ExibirDiscografia()
     {
         Console.WriteLine($"Discografia do artista {Nome}");
-        foreach (var musica in Musicas)
-        {
-            Console.WriteLine($"Música: {musica.Nome}");
-        }
+        foreach (var musica in Musicas) Console.WriteLine($"Música: {musica.Nome}");
     }
 
     public override string ToString()
