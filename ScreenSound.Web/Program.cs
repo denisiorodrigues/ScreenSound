@@ -12,6 +12,7 @@ builder.Services.AddMudServices();
 builder.Services.AddTransient<ArtistaService>();
 builder.Services.AddTransient<GeneroService>();
 builder.Services.AddTransient<MusicaService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddHttpClient("ScreenSoundAPI", client =>
 {
