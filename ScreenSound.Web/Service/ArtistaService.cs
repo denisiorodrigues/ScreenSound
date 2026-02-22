@@ -15,27 +15,27 @@ public class ArtistaService
 
     public async Task<ICollection<ArtistaResponse>> GetArtistaAsyncs()
     {
-        return await _httpClient.GetFromJsonAsync<List<ArtistaResponse>>("Artistas");
+        return await _httpClient.GetFromJsonAsync<List<ArtistaResponse>>("artistas");
     }
 
     public async Task CadastrarArtistaAsync(ArtistaRequest request)
     {
-        await _httpClient.PostAsJsonAsync("Artistas", request);
+        await _httpClient.PostAsJsonAsync("artistas", request);
     }
 
     public async Task EditarArtistaAsync(ArtistaRequestEdit request)
     {
-        var response = await _httpClient.PutAsJsonAsync("Artistas", request);
+        var response = await _httpClient.PutAsJsonAsync("artistas", request);
         if (response == null || !response.IsSuccessStatusCode) throw new Exception("Erro ao editar artista");
     }
 
     public async Task DeletarArtistaAsync(int id)
     {
-        await _httpClient.DeleteAsync($"Artistas/{id}");
+        await _httpClient.DeleteAsync($"artistas/{id}");
     }
 
     public async Task<ArtistaResponse> GetArtistaPorNomeAsync(string nome)
     {
-        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"Artistas/{nome}");
+        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/{nome}");
     }
 }

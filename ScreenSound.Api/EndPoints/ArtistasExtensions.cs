@@ -16,8 +16,7 @@ public static class ArtistasExtensions
 
         groupBuilder
             .MapGet("",
-                ([FromServices] DAL<Artista> dal) => { return Results.Ok(EntityListToResponseList(dal.Listar())); })
-            .RequireAuthorization();
+                ([FromServices] DAL<Artista> dal) => { return Results.Ok(EntityListToResponseList(dal.Listar())); });
 
         groupBuilder.MapGet("{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
@@ -25,7 +24,7 @@ public static class ArtistasExtensions
             if (artista == null) return Results.NotFound();
 
             return Results.Ok(EntityToResponse(artista));
-        }).RequireAuthorization();
+        });
 
         groupBuilder.MapPost("",
             async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal,
@@ -47,7 +46,7 @@ public static class ArtistasExtensions
                 dal.Adicionar(artista);
 
                 return Results.Ok();
-            }).RequireAuthorization();
+            });
 
         groupBuilder.MapPut("",
             ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequestEdit artistaRequest) =>
@@ -60,7 +59,7 @@ public static class ArtistasExtensions
                 dal.Atualizar(artistaAAtualizar);
 
                 return Results.Ok();
-            }).RequireAuthorization();
+            });
 
         groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
         {
@@ -70,7 +69,7 @@ public static class ArtistasExtensions
             dal.Deletar(artistaADeletar);
 
             return Results.NoContent();
-        }).RequireAuthorization();
+        });
     }
 
     private static ICollection<ArtistaResponse> EntityListToResponseList(IEnumerable<Artista> listaDeArtistas)

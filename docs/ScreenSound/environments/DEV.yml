@@ -1,0 +1,6 @@
+name: DEV
+variables:
+  - name: baseUrl
+    value: https://localhost:7089
+  - name: jwt_token
+    value: ""
