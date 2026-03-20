@@ -20,7 +20,7 @@ public class ArtistaService
 
     public async Task CadastrarArtistaAsync(ArtistaRequest request)
     {
-        await _httpClient.PostAsJsonAsync("artistas", request);
+        await _httpClient.PostAsJsonAsync("artistas?useCookies=true", request);
     }
 
     public async Task EditarArtistaAsync(ArtistaRequestEdit request)
@@ -31,11 +31,11 @@ public class ArtistaService
 
     public async Task DeletarArtistaAsync(int id)
     {
-        await _httpClient.DeleteAsync($"artistas/{id}");
+        await _httpClient.DeleteAsync($"artistas/{id}?useCookies=true");
     }
 
     public async Task<ArtistaResponse> GetArtistaPorNomeAsync(string nome)
     {
-        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/{nome}");
+        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/{nome}?useCookies=true");
     }
 }
