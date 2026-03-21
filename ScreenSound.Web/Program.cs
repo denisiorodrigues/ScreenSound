@@ -10,7 +10,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 
-builder.Services.AddTransient<CookieHandler>();
+builder.Services.AddScoped<CookieHandler>();
 builder.Services.AddScoped<ArtistaService>();
 builder.Services.AddScoped<GeneroService>();
 builder.Services.AddScoped<MusicaService>();

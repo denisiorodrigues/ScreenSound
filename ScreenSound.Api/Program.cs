@@ -29,7 +29,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Obrigatório para HTTPS
-    options.Cookie.SameSite = SameSiteMode.Lax; // Para produção cross-domain, pode ser SameSiteMode.None
+    options.Cookie.SameSite = SameSiteMode.None; // "None" permite cross-site entre portas diferentes
     options.Cookie.Name = ".AspNetCore.Identity.Application"; // Nome padrão do cookie
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
     options.SlidingExpiration = true;
