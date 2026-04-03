@@ -1,11 +1,11 @@
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ScreenSound.Api.EndPoints;
 using ScreenSound.Dados.Banco;
 using ScreenSound.Dados.Modelos;
 using ScreenSound.Modelos;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,5 +75,11 @@ app.AddEndPointsMusicas();
 app.AddEndPointsGeneros();
 
 app.MapGroup("auth").MapIdentityApi<PessoaComAcesso>().WithTags("Autorização");
+
+app.MapPost("auth/logout", async ([Microsoft.AspNetCore.Mvc.FromServices] SignInManager<PessoaComAcesso> signInManager) =>
+{
+    await signInManager.SignOutAsync();
+    return Results.Ok();
+}).RequireAuthorization().WithTags("Autorização");
 
 app.Run();

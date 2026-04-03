@@ -1,0 +1,14 @@
+﻿@page "/logout"
+@inject AuthService AuthService
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        if (await AuthService.VerificaAutenticado())
+        {
+            await AuthService.LogoutAsync();
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
