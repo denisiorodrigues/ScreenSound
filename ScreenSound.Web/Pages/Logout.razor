@@ -1,5 +1,6 @@
 ﻿@page "/logout"
 @inject AuthService AuthService
+@attribute [AllowAnonymous]
 
 @code {
     protected override async Task OnInitializedAsync()
