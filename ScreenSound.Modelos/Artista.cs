@@ -16,7 +16,7 @@ public class Artista
     }
 
     public virtual ICollection<Musica> Musicas { get; set; } = new List<Musica>();
-
+    public virtual ICollection<AvaliacaoArtista> Avaliacoes { get; set; } = new List<AvaliacaoArtista>();
     public string Nome { get; set; }
     public string FotoPerfil { get; set; }
     public string Bio { get; set; }
@@ -33,6 +33,14 @@ public class Artista
         Console.WriteLine($"Discografia do artista {Nome}");
         foreach (var musica in Musicas) Console.WriteLine($"Música: {musica.Nome}");
     }
+
+    public void AdicionarNota(int pessoaId, int nota)
+    {
+        //nota = Math.Min(Math.Max(nota, 1), 5);
+        nota = Math.Clamp(nota, 1, 5);
+        Avaliacoes.Add(new AvaliacaoArtista() { ArtistaId = this.Id, PessoaId = pessoaId, Nota = nota });
+    }
+
 
     public override string ToString()
     {
