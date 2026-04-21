@@ -14,6 +14,7 @@ public class ScreenSoundContext : IdentityDbContext<PessoaComAcesso, PerfilDeAce
     public DbSet<Artista> Artistas { get; set; }
     public DbSet<Musica> Musicas { get; set; }
     public DbSet<Genero> Generos { get; set; }
+    public DbSet<AvaliacaoArtista> AvaliacaoArtistas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,6 +23,9 @@ public class ScreenSoundContext : IdentityDbContext<PessoaComAcesso, PerfilDeAce
         modelBuilder.Entity<Musica>()
             .HasMany(a => a.Generos)
             .WithMany(m => m.Musicas);
+
+        modelBuilder.Entity<AvaliacaoArtista>()
+            .HasKey(aa => new { aa.ArtistaId, aa.PessoaId });
     }
 
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
