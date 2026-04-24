@@ -69,10 +69,10 @@ public static class ArtistasExtensions
             [FromServices] UserManager<PessoaComAcesso> pessoaDAL,
             [FromBody] AvaliacaoArtistaRequest avaliacaoRequest) =>
         {
-            var email = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new InvalidOperationException("Pessoa não está conectada");
-            var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
             var artistaAAtualizar = artistaDAL.RecuperarArtistaComAvaliacoes(avaliacaoRequest.ArtistaId);
             if (artistaAAtualizar == null) return Results.NotFound();
+            var email = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new InvalidOperationException("Pessoa não está conectada");
+            var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
             var avaliacaoExistente = artistaAAtualizar.Avaliacoes.FirstOrDefault(a => a.PessoaId == pessoaAvaliadora.Id && a.ArtistaId == avaliacaoRequest.ArtistaId);
 
             if (avaliacaoExistente is null)
@@ -86,6 +86,21 @@ public static class ArtistasExtensions
 
             artistaDAL.Atualizar(artistaAAtualizar);
             return Results.Created();
+        });
+
+        groupBuilder.MapPost("{id}/avaliacao", async (HttpContext context,
+            [FromServices] DAL<Artista> artistaDAL,
+            [FromServices] UserManager<PessoaComAcesso> pessoaDAL,
+            [FromQuery] int id) =>
+        {
+            var artistaAAtualizar = artistaDAL.RecuperarArtistaComAvaliacoes(id);
+            if (artistaAAtualizar == null) return Results.NotFound();
+            var email = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new InvalidOperationException("Pessoa não está conectada");
+            var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
+            var avaliacaoExistente = artistaAAtualizar.Avaliacoes.FirstOrDefault(a => a.PessoaId == pessoaAvaliadora.Id && a.ArtistaId == id);
+
+            var response = new AvaliacaoArtistaResponse(id, avaliacaoExistente?.Nota ?? 0);
+            return Results.Ok(response);
         });
 
         groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
