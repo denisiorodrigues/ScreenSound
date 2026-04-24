@@ -34,7 +34,7 @@ public class Artista
         foreach (var musica in Musicas) Console.WriteLine($"Música: {musica.Nome}");
     }
 
-    public void AdicionarNota(int pessoaId, int nota)
+    public void AtribuirNota(int pessoaId, int nota)
     {
         //nota = Math.Min(Math.Max(nota, 1), 5);
         nota = Math.Clamp(nota, 1, 5);

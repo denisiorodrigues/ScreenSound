@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ScreenSound.Api.Requests;
 using ScreenSound.Api.Response;
 using ScreenSound.Dados.Banco;
+using ScreenSound.Dados.Modelos;
 using ScreenSound.Modelos;
+using System.Security.Claims;
 
 namespace ScreenSound.Api.EndPoints;
 
@@ -60,6 +63,30 @@ public static class ArtistasExtensions
 
                 return Results.Ok();
             });
+
+        groupBuilder.MapPost("avaliacao", async (HttpContext context, 
+            [FromServices] DAL<Artista> artistaDAL,
+            [FromServices] UserManager<PessoaComAcesso> pessoaDAL,
+            [FromBody] AvaliacaoArtistaRequest avaliacaoRequest) =>
+        {
+            var email = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new InvalidOperationException("Pessoa não está conectada");
+            var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
+            var artistaAAtualizar = artistaDAL.RecuperarArtistaComAvaliacoes(avaliacaoRequest.ArtistaId);
+            if (artistaAAtualizar == null) return Results.NotFound();
+            var avaliacaoExistente = artistaAAtualizar.Avaliacoes.FirstOrDefault(a => a.PessoaId == pessoaAvaliadora.Id && a.ArtistaId == avaliacaoRequest.ArtistaId);
+
+            if (avaliacaoExistente is null)
+            {
+                artistaAAtualizar.AtribuirNota(pessoaAvaliadora.Id, avaliacaoRequest.Nota);
+            }
+            else
+            {
+                avaliacaoExistente.Nota = avaliacaoRequest.Nota;
+            }
+
+            artistaDAL.Atualizar(artistaAAtualizar);
+            return Results.Created();
+        });
 
         groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
         {

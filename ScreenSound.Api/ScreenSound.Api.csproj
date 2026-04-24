@@ -4,22 +4,23 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+      <UserSecretsId>da912390-a543-47b1-8e61-5ebe955487cc</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14"/>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.23">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ScreenSound.Dados\ScreenSound.Dados.csproj"/>
-        <ProjectReference Include="..\ScreenSound.Modelos\ScreenSound.Modelos.csproj"/>
+        <ProjectReference Include="..\ScreenSound.Dados\ScreenSound.Dados.csproj" />
+        <ProjectReference Include="..\ScreenSound.Modelos\ScreenSound.Modelos.csproj" />
     </ItemGroup>
 
 </Project>

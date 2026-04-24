@@ -16,6 +16,36 @@ No docker compose, temos os serviços abaixo:
 * ~~PostgresSQL~~
 * MySql
 
+## Configuração de Credenciais (user-secrets)
+
+As credenciais do banco **nunca devem ser commitadas**. O projeto usa `dotnet user-secrets` em desenvolvimento e variáveis de ambiente em produção.
+
+### Desenvolvimento local
+
+Execute os comandos abaixo dentro da pasta `ScreenSound.Api`:
+
+```bash
+cd ScreenSound.Api
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:ScreenSoundDB" "Server=localhost;Port=3306;Database=screen-sounds;User=root;Password=SUA_SENHA;"
+```
+
+Os secrets ficam em `%APPDATA%\Microsoft\UserSecrets\` (Windows) ou `~/.microsoft/usersecrets/` (Linux/Mac), fora do repositório.
+
+> O `appsettings.json` mantém a chave `ScreenSoundDB` vazia propositalmente — o ASP.NET Core sobrescreve com o secret em modo `Development`.
+
+### Produção
+
+Defina a variável de ambiente no servidor (Docker, VPS, painel de nuvem etc.):
+
+```bash
+ConnectionStrings__ScreenSoundDB=Server=...;Port=3306;Database=screen-sounds;User=root;Password=SENHA_PRODUCAO;
+```
+
+O ASP.NET Core lê variáveis de ambiente automaticamente, sem nenhuma mudança de código.
+
+---
+
 ## Migrations
 
 Executar todas as migrações quando iniciar uma nova aplicação
