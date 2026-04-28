@@ -109,3 +109,8 @@ div.mud-main-content.main-content {
 header.mud-appbar.mud-appbar-fixed-top.mud-elevation-2.mud-theme-surface {
     /*    background-color: rgba(55,55,64,1);*/
 }
+
+.rating-leitura-colorida.mud-disabled .mud-rating-item.mud-rating-item-active {
+    color: #FFB300 !important;
+    opacity: 1 !important;
+}

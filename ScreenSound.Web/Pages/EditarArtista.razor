@@ -26,6 +26,9 @@
 		              RequiredError="Campo obrigatório."/>
 
 		<div class="d-flex align-center justify-space-between mt-4">
+			<MudRating @bind-SelectedValue="Classificacao"
+					   @onclick="AvaliarArtista" />
+
 			<MudGrid Spacing="5" Justify="Justify.FlexEnd">
 				<MudItem>
 					<MudButton Variant="Variant.Filled"
@@ -67,7 +70,7 @@
 	private string? biografia;
 	[Parameter] public string? NomeArtista { get; set; }
 	private string? fotoPerfil;
-
+	public int Classificacao { get; set; }
 
 	public ArtistaResponse? Artista { get; set; }
 
@@ -109,4 +112,8 @@
 		navigationManager.NavigateTo("Artistas");
 	}
 
+	private async Task AvaliarArtista()
+	{
+		await artistaService.AvaliaArtistaAsync(Artista!.Id, Classificacao);
+    }
 }
