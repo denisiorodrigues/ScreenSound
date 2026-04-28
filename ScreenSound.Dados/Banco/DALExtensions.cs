@@ -5,6 +5,11 @@ namespace ScreenSound.Dados.Banco;
 
 public static class DALExtensions
 {
+    public static List<Artista> ListarComAvaliacoes(this DAL<Artista> dal)
+    {
+        return dal.context.Artistas.Include(a => a.Avaliacoes).ToList();
+    }
+
     public static Musica? RecuperarMusicaPorNomeComGeneros(this DAL<Musica> dal, string nome)
     {
         return dal.context.Musicas

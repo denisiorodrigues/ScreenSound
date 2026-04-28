@@ -19,7 +19,7 @@ public static class ArtistasExtensions
 
         groupBuilder
             .MapGet("",
-                ([FromServices] DAL<Artista> dal) => { return Results.Ok(EntityListToResponseList(dal.Listar())); });
+                ([FromServices] DAL<Artista> dal) => { return Results.Ok(EntityListToResponseList(dal.ListarComAvaliacoes())); });
 
         groupBuilder.MapGet("{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
@@ -64,15 +64,15 @@ public static class ArtistasExtensions
                 return Results.Ok();
             });
 
-        groupBuilder.MapPost("avaliacao", async (HttpContext context, 
+        groupBuilder.MapPost("avaliacao", (HttpContext context, 
             [FromServices] DAL<Artista> artistaDAL,
-            [FromServices] UserManager<PessoaComAcesso> pessoaDAL,
+            [FromServices] DAL<PessoaComAcesso> pessoaDAL,
             [FromBody] AvaliacaoArtistaRequest avaliacaoRequest) =>
         {
             var artistaAAtualizar = artistaDAL.RecuperarArtistaComAvaliacoes(avaliacaoRequest.ArtistaId);
             if (artistaAAtualizar == null) return Results.NotFound();
             var email = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new InvalidOperationException("Pessoa não está conectada");
-            var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
+            var pessoaAvaliadora = pessoaDAL.RecuperarPor(x => x.Email == email) ?? throw new InvalidOperationException("Pessoa não encontrada");
             var avaliacaoExistente = artistaAAtualizar.Avaliacoes.FirstOrDefault(a => a.PessoaId == pessoaAvaliadora.Id && a.ArtistaId == avaliacaoRequest.ArtistaId);
 
             if (avaliacaoExistente is null)
@@ -88,7 +88,7 @@ public static class ArtistasExtensions
             return Results.Created();
         });
 
-        groupBuilder.MapPost("{id}/avaliacao", async (HttpContext context,
+        groupBuilder.MapGet("{id}/avaliacao", async (HttpContext context,
             [FromServices] DAL<Artista> artistaDAL,
             [FromServices] UserManager<PessoaComAcesso> pessoaDAL,
             [FromQuery] int id) =>
@@ -99,7 +99,7 @@ public static class ArtistasExtensions
             var pessoaAvaliadora = await pessoaDAL.FindByEmailAsync(email) ?? throw new InvalidOperationException("Pessoa não encontrada");
             var avaliacaoExistente = artistaAAtualizar.Avaliacoes.FirstOrDefault(a => a.PessoaId == pessoaAvaliadora.Id && a.ArtistaId == id);
 
-            var response = new AvaliacaoArtistaResponse(id, avaliacaoExistente?.Nota ?? 0);
+            var response = new AvaliacaoArtistaResponse(avaliacaoExistente?.Nota ?? 0, id);
             return Results.Ok(response);
         });
 
@@ -121,6 +121,9 @@ public static class ArtistasExtensions
 
     private static ArtistaResponse EntityToResponse(Artista artista)
     {
-        return new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
+        return new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil)
+        {
+            Classificacao = artista.Avaliacoes.Select(a => a.Nota).DefaultIfEmpty(0).Average()
+        };
     }
 }
