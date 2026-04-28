@@ -7,9 +7,7 @@
     </MudCardHeader>
     <MudCardContent>
         <MudText Typo="Typo.body1">@Artista!.Bio</MudText>
-        <MudRating SelectedValue="@Convert.ToInt32(Artista!.Classificacao)"
-                   Disabled="true"
-                   Class="rating-leitura-colorida" />
+        <MudRating SelectedValue="@Convert.ToInt32(Artista!.Classificacao)" ReadOnly="true"/>
     </MudCardContent>
     <MudCardActions>
         <MudButton Color="Color.Warning"
